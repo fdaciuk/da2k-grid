@@ -1,0 +1,84 @@
+@charset 'utf-8';
+
+/**
+ * Da2k Grid 
+ * @author: Fernando Daciuk
+ * @version: 1.0
+ * @website: https://github.com/fdaciuk/da2k-grid
+ *
+ *
+ *
+ * Definindo variáveis
+ *
+ * Edite as 3 primeiras variáveis para definir como será seu grid:
+ * $width = Largura do Grid
+ * $columns = Número de colunas do grid
+ * $col_margin = Margem de separação entre as colunas (somente números pares)
+ */
+
+// Largura do grid:
+$width : 900px;
+// Número de colunas do grid:
+$columns : 12;
+// Margem de espaçamento de cada item do grid
+$col_margin: 20px;
+
+// Aqui começa a mágica :)
+// Total de espaços
+$total_espacos : $columns * $col_margin; 
+// Removendo os espaços, sei quanto está preenchido 
+$total_preenchido : $width - $total_espacos;
+// Para saber a largura de cada coluna, pego o total preenchido (sem os espaços) e divido pelo número de colunas.
+$col_width : $total_preenchido / $columns;
+
+
+
+// Clearfix - limpa a flutuação dos elementos.
+@mixin clearfix() {
+	*zoom: 1;
+
+	&:before,
+	&:after {
+		display: table;
+		content: "";
+	}
+
+	&:after {
+		clear: both;
+	}
+}
+
+
+// Centralizar o container que servirá como linha (row)
+@mixin center( $w: $width ) {
+	left: 50%;
+	margin-left: ( $w / 2 ) * -1;
+	position: absolute;
+	width: $w;
+}
+
+
+// Linha - define uma linha do grid (normalmente é o container que vai ocupar toda a área útil de conteúdo para o grid)
+@mixin row() {
+	@include clearfix;
+	float: left;
+	width: $width;
+}
+
+
+// Colunas - define a quantidade de colunas para o grid. O padrão é 1.
+@mixin col( $n: 1 ) {
+	float: left;
+	margin-left: ( $col_margin / 2 );
+	margin-right: ( $col_margin / 2 );
+	@include span( $n );
+}
+
+
+// Divide as colunas do grid corretamente conforme a largura e margem setadas
+// Configuração abaixo é pra funcionar dinamicamente, com qualquer largura, margem e número de colunas.
+@mixin span( $n: 1 ) {
+	$espacos: $col_margin * ( $n - 1 );
+	$total_colunas: $col_width * $n;
+	width: $total_colunas + $espacos;
+}
