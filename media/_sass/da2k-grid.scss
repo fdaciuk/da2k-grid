@@ -82,3 +82,19 @@ $col_width : $total_preenchido / $columns;
 	$total_colunas: $col_width * $n;
 	width: $total_colunas + $espacos;
 }
+
+
+// Inclui espaçamento ANTES da coluna. $n é o número de colunas a serem espaçadas.
+@mixin append( $n: 1 ) {
+	$espacos: $col_margin * ( $n );
+	$total_colunas: $col_width * $n;
+	margin-right: $total_colunas + $espacos + 10px;
+}
+
+
+// Inclui espaçamento APÓS da coluna. $n é o número de colunas a serem espaçadas.
+@mixin prepend( $n: 1 ) {
+	$espacos: $col_margin * ( $n );
+	$total_colunas: $col_width * $n;
+	margin-left: $total_colunas + $espacos + 10px;
+}
